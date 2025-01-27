@@ -35,6 +35,7 @@ class ProfileController extends Controller
     public function changePassword(Request $request): JsonResponse{
         $Data = $request->validate([
             'current_password' => 'required|string',
+            //'new_password' => 'required|string|confirmed|min:8',
             'new_password' => 'required|string|confirmed|min:8',
         ]);
 
