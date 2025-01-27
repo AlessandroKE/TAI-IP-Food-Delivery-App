@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  food_delivery_app:
+    build:
+      context: ./Food-Delivery-Api
+      dockerfile: Dockerfile
+    image: food-delivery-app
+    container_name: food-delivery-app  
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./Food-Delivery-Api:/var/www
+      - ./storage:/var/www/storage
+    ports:
+      - "8000:8000"
+    networks:
+      - food_delivery
+
+  postgres_db:
+    image: postgres:15
+    container_name: postgres-food-delivery
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: food_user
+      POSTGRES_PASSWORD: food_password
+      POSTGRES_DB: food_delivery
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - food_delivery
+
+networks:
+  food_delivery:
+
+volumes:
+  db_data:
